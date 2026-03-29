@@ -1,0 +1,39 @@
+00-00000001	WP01	Basic Function Package
+00-00000002	WP02	Basic FFT Package
+00-00000004	WP03	Histogram/Trend Package
+00-00000008	DDM		Disk Drive Measurements
+00-00000010	CKIO	9310 External clock + Trig. Out
+00-00000020	PRML	PRML (disk drive) Measurements
+00-00000040	ORM		CD-ROM Measurements
+00-00000080	DDFA	Disk Drive Failure Analysis
+00-00000100	MATE	MATE remote control
+00-00000200	MC01	Memory Card Software
+00-00000400	PMSK	PolyMask
+00-00000800	AORM	Advanced Optical Recording
+00-00001000	DFP		Digital Filter Package
+00-00002000	ATP		Advanced Trigger Package
+00-00004000	ENET	Ethernet testing
+00-00008000	BETA	New for customers to try
+00-00010000	DEVP	Parameters under development
+00-00020000	CU01	Telecom present
+00-00040000	MT01	Telecom option 01
+00-00080000	MT02	Telecom option 02
+00-00100000	MT03	Telecom option 03
+00-00200000	DDNA	Disk Drive Noise Analysis
+00-00400000	JTA		Jitter and Timing Analysis
+00-00800000	CCTM	CCTM needs JTA
+00-01000000	PMT		Power Measurement Tools
+00-02000000	DDA		Disk Drive Analyzer
+00-04000000	DMOD	Demodulation Tools
+00-08000000	EATN	Eaton option
+00-10000000	EMM		Extended Math and Measure
+00-20000000	WAVA	Wave Analyzer
+00-40000000	HDS		Hard Disk
+00-80000000	JPRO	JitterPro
+01-00000001	WPM		WavePro M
+01-00000002	WPL		WavePro L
+01-00000004	WPVL	WavePro VL
+01-00000008	WPXL	WavePro XL
+01-00000010	WPDD	WavePro DDA
+01-00000020	JA		Jitter Analyzer
+01-00000040	SMAP	Surface Map
