@@ -2,11 +2,9 @@
 from Crypto.Cipher import Blowfish
 from struct import pack, unpack
 
-key_ct = "\205\023\064\027\154\014\026\116\230\076\141\360\373\253\252\267"
+key_ct = b"\205\023\064\027\154\014\026\116\230\076\141\360\373\253\252\267"
 
-key = ""
-for c in key_ct[::-1]:
-	key += chr(ord(c)^116)
+key = bytes(c ^ 116 for c in reversed(key_ct))
 
 cipher = Blowfish.new(key, Blowfish.MODE_ECB)
 

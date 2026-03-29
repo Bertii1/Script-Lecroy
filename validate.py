@@ -14,12 +14,12 @@ if len(argv)==3:
 	db = lec.db.fromfile(argv[2])
 	print ("Options:")
 	page = flags & 0x43
-	for i in xrange(32):
+	for i in range(32):
 		bmsk = 1<<i
 		if mask & bmsk:
 			idx = (page<<32) | bmsk
-			print ("%02X-%08X" % (page, bmsk),)
+			print("%02X-%08X" % (page, bmsk), end=' ')
 			if idx in db.options:
-				print ("%-20s %s" % (db.options[idx].name, db.options[idx].description))
+				print("%-20s %s" % (db.options[idx].name, db.options[idx].description))
 			else:
-				print ("Unknown option")
+				print("Unknown option")

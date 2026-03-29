@@ -1,5 +1,5 @@
 # educational use only
-from crypto import encrypt, decrypt
+from .crypto import encrypt, decrypt
 from binascii import hexlify, unhexlify
 from struct import pack, unpack
 
@@ -25,7 +25,7 @@ def encode(iid, flags, mask):
 		iid = (b0<<16) | (b1<<8) | b2
 
 	pt = pack(">LL", (iid<<8)+flags, mask)
-	res = hexlify(encrypt(pt)).upper()
+	res = hexlify(encrypt(pt)).upper().decode('ascii')
 	return res[0:4]+"-"+res[4:8]+"-"+res[8:12]+"-"+res[12:16]
 
 __all__ = ["decode", "encode"]

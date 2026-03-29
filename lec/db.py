@@ -1,12 +1,12 @@
 # educational use only
-from crypto import decrypt
+from .crypto import decrypt
 from struct import unpack
-from cStringIO import StringIO
+from io import BytesIO
 import os
 
 def fsize(hf):
 	pos = hf.tell()
-	hf.seek(0, os.SEEK_END)	
+	hf.seek(0, os.SEEK_END)
 	size = hf.tell()
 	hf.seek(pos)
 	return size
@@ -14,7 +14,7 @@ def fsize(hf):
 
 def DecryptFile(hfi, hfo):
 	size = fsize(hfi)
-	for i in xrange(0, size, 8):
+	for i in range(0, size, 8):
 		hfo.write(decrypt(hfi.read(8)))
 
 ############################################################################
@@ -31,13 +31,13 @@ class LicError(Exception):
 class LicReader(object):
 	def __init__(self, fname):
 		hfi = open(fname, "rb")
-		hfo = StringIO()
+		hfo = BytesIO()
 		DecryptFile(hfi, hfo)
 		hfi.close()
 		plain_cfg = hfo.getvalue()
 		hfo.close()
 
-		self.hf = StringIO(plain_cfg)
+		self.hf = BytesIO(plain_cfg)
 		self.size = fsize(self.hf)
 		self.nomore = False
 
@@ -60,7 +60,7 @@ class LicReader(object):
 			return TypeInt, v
 		elif t==0x08: # UTF-16LE string
 			l = unpack("<L", self.hf.read(4))[0]
-			v = self.hf.read(l).decode('UTF-16', 'ignore').encode('ASCII', 'ignore')
+			v = self.hf.read(l).decode('utf-16-le', 'ignore').encode('ascii', 'ignore').decode('ascii')
 			return TypeStr, v
 		else:
 			raise LicError("Unsupported type %02X" % (t))
@@ -231,7 +231,7 @@ class LicC(object):
 def LoadGroup(reader, cls):
 	num = reader.GetInt()
 	group = dict()
-	for i in xrange(num):
+	for i in range(num):
 		obj = cls(reader)
 		group[obj.idx] = obj
 	return group
@@ -240,7 +240,7 @@ def LoadGroup(reader, cls):
 
 def PrintGroup(grp):
 	for idx in sorted(grp.keys()):
-		print (grp[idx])
+		print(grp[idx])
 
 #############################################################################
 
@@ -306,7 +306,7 @@ __all__ = ["LicReader", "LicDB", "fromfile"]
 
 if __name__=="__main__":
 	from sys import argv, exit
-	
+
 	if len(argv)!=2:
 		exit("Usage: "+argv[0]+" <options.cfg>")
 
