@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # educational use only
 """
@@ -7,53 +8,15 @@ Requires: pycryptodome (pip install pycryptodome)
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+import json
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lec import db, key as lec_key
 
-_DEFAULT_OPTS = [
-    {"code": "00-00000001", "key": "WP01",  "description": "Basic Function Package"},
-    {"code": "00-00000002", "key": "WP02",  "description": "Basic FFT Package"},
-    {"code": "00-00000004", "key": "WP03",  "description": "Histogram/Trend Package"},
-    {"code": "00-00000008", "key": "DDM",   "description": "Disk Drive Measurements"},
-    {"code": "00-00000010", "key": "CKIO",  "description": "9310 External clock + Trig. Out"},
-    {"code": "00-00000020", "key": "PRML",  "description": "PRML (disk drive) Measurements"},
-    {"code": "00-00000040", "key": "ORM",   "description": "CD-ROM Measurements"},
-    {"code": "00-00000080", "key": "DDFA",  "description": "Disk Drive Failure Analysis"},
-    {"code": "00-00000100", "key": "MATE",  "description": "MATE remote control"},
-    {"code": "00-00000200", "key": "MC01",  "description": "Memory Card Software"},
-    {"code": "00-00000400", "key": "PMSK",  "description": "PolyMask"},
-    {"code": "00-00000800", "key": "AORM",  "description": "Advanced Optical Recording"},
-    {"code": "00-00001000", "key": "DFP",   "description": "Digital Filter Package"},
-    {"code": "00-00002000", "key": "ATP",   "description": "Advanced Trigger Package"},
-    {"code": "00-00004000", "key": "ENET",  "description": "Ethernet testing"},
-    {"code": "00-00008000", "key": "BETA",  "description": "New for customers to try"},
-    {"code": "00-00010000", "key": "DEVP",  "description": "Parameters under development"},
-    {"code": "00-00020000", "key": "CU01",  "description": "Telecom present"},
-    {"code": "00-00040000", "key": "MT01",  "description": "Telecom option 01"},
-    {"code": "00-00080000", "key": "MT02",  "description": "Telecom option 02"},
-    {"code": "00-00100000", "key": "MT03",  "description": "Telecom option 03"},
-    {"code": "00-00200000", "key": "DDNA",  "description": "Disk Drive Noise Analysis"},
-    {"code": "00-00400000", "key": "JTA",   "description": "Jitter and Timing Analysis"},
-    {"code": "00-00800000", "key": "CCTM",  "description": "CCTM needs JTA"},
-    {"code": "00-01000000", "key": "PMT",   "description": "Power Measurement Tools"},
-    {"code": "00-02000000", "key": "DDA",   "description": "Disk Drive Analyzer"},
-    {"code": "00-04000000", "key": "DMOD",  "description": "Demodulation Tools"},
-    {"code": "00-08000000", "key": "EATN",  "description": "Eaton option"},
-    {"code": "00-10000000", "key": "EMM",   "description": "Extended Math and Measure"},
-    {"code": "00-20000000", "key": "WAVA",  "description": "Wave Analyzer"},
-    {"code": "00-40000000", "key": "HDS",   "description": "Hard Disk"},
-    {"code": "00-80000000", "key": "JPRO",  "description": "JitterPro"},
-    {"code": "01-00000001", "key": "WPM",   "description": "WavePro M"},
-    {"code": "01-00000002", "key": "WPL",   "description": "WavePro L"},
-    {"code": "01-00000004", "key": "WPVL",  "description": "WavePro VL"},
-    {"code": "01-00000008", "key": "WPXL",  "description": "WavePro XL"},
-    {"code": "01-00000010", "key": "WPDD",  "description": "WavePro DDA"},
-    {"code": "01-00000020", "key": "JA",    "description": "Jitter Analyzer"},
-    {"code": "01-00000040", "key": "SMAP",  "description": "Surface Map"},
-]
+_HERE = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_OPTS_PATH = os.path.join(_HERE, "default_opts.json")
 
 CHECK_ON  = "☑"
 CHECK_OFF = "☐"
@@ -351,21 +314,32 @@ class LeCroyGUI:
                 self._status("Seleziona un file options.cfg con il pulsante Sfoglia…")
 
     def _load_default_options(self):
-        self.options_data = []
-        for entry in _DEFAULT_OPTS:
-            code = entry["code"]
-            flags_hex, mask_hex = code.split("-")
-            self.options_data.append({
-                "code":        code,
-                "name":        entry["key"],
-                "description": entry["description"],
-                "flags":       int(flags_hex, 16),
-                "mask":        int(mask_hex, 16),
-                "checked":     False,
-                "tree_id":     None,
-            })
-        self._populate_opts_tree()
-        self._status(f"Caricate {len(self.options_data)} opzioni predefinite")
+        if not os.path.isfile(DEFAULT_OPTS_PATH):
+            self._status("File default_opts.json non trovato accanto a gui.py.")
+            return
+        try:
+            with open(DEFAULT_OPTS_PATH, encoding="utf-8") as f:
+                raw = json.load(f)
+            self.options_data = []
+            for entry in raw:
+                code = entry["code"]          # e.g. "00-00000001"
+                flags_hex, mask_hex = code.split("-")
+                self.options_data.append({
+                    "code":        code,
+                    "name":        entry["key"],
+                    "description": entry["description"],
+                    "flags":       int(flags_hex, 16),
+                    "mask":        int(mask_hex, 16),
+                    "checked":     False,
+                    "tree_id":     None,
+                })
+            self._populate_opts_tree()
+            self._status(
+                f"Caricate {len(self.options_data)} opzioni predefinite da default_opts.json"
+            )
+        except Exception as exc:
+            messagebox.showerror("Errore default_opts.json", str(exc))
+            self._status("Errore nel caricamento delle opzioni predefinite.")
 
     def _browse_cfg(self):
         path = filedialog.askopenfilename(
