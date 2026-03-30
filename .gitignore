@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Virtual environments
+venv*/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated output
+codici
+opzioni.json
+opzioni.txt

@@ -1,20 +1,20 @@
 # LeCroy Options Recovery
 
-Tool per la generazione, validazione e decodifica di chiavi di licenza per oscilloscopi LeCroy.
+Tool for generating, validating and decoding license keys for LeCroy oscilloscopes.
 
-> **Solo uso didattico/educativo.** Compatibile con firmware X-Stream precedenti alla versione 8.x.x e con piattaforma vxfusion (DDA/WP9xx) versione 9.3.0.
+> **For educational use only.** Compatible with X-Stream firmware versions prior to 8.x.x and with the vxfusion platform (DDA/WP9xx) version 9.3.0.
 
 ---
 
-## Requisiti
+## Requirements
 
 - Python 2.7.x
-- PyCrypto (`pip install pycrypto`) oppure PyCryptodome (`pip install pycryptodome`)
-- Visual C++ Compiler for Python 2.7 (solo Windows, richiesto da PyCrypto)
+- PyCrypto (`pip install pycrypto`) or PyCryptodome (`pip install pycryptodome`)
+- Visual C++ Compiler for Python 2.7 (Windows only, required by PyCrypto)
 
 ---
 
-## Struttura directory
+## Directory structure
 
 ```
 script-papa/
@@ -30,59 +30,59 @@ script-papa/
 
 ---
 
-## Uso rapido
+## Quick start
 
-### 1. Trovare le opzioni disponibili
+### 1. List available options
 
 ```
 python list.py "X-STREAM options.cfg"
 ```
 
-Output esempio:
+Example output:
 ```
 00-00000001  BasicFFT             Basic FFT Package
 00-00000008  Histogram            Histogram/Trend Package
 ...
 ```
 
-### 2. Generare una chiave
+### 2. Generate a key
 
 ```
 python gen.py <ScopeID> <flags> <mask>
 ```
 
-- `ScopeID`: i primi 6 caratteri hex del Scope ID (la parte **prima** del trattino)
-- `flags`: colonna 1 dell'output di list.py (es. `00`)
-- `mask`: colonna 2 dell'output di list.py (es. `00000008`)
+- `ScopeID`: the first 6 hex characters of the Scope ID (the part **before** the dash)
+- `flags`: column 1 from list.py output (e.g. `00`)
+- `mask`: column 2 from list.py output (e.g. `00000008`)
 
-**Esempio:**
+**Example:**
 ```
 python gen.py 2F0DAB 00 00000008
 ```
 
-Output: `XXXX-XXXX-XXXX-XXXX` — la chiave da inserire nello scope.
+Output: `XXXX-XXXX-XXXX-XXXX` — the key to enter into the scope.
 
-### 3. Validare una chiave esistente
+### 3. Validate an existing key
 
 ```
-python validate.py <chiave>
-python validate.py <chiave> "X-STREAM options.cfg"
+python validate.py <key>
+python validate.py <key> "X-STREAM options.cfg"
 ```
 
 ---
 
-## Dove trovare il ScopeID
+## Where to find the ScopeID
 
-Sul menu dello scope: **Utility > Utility Setup > tab Options**
+On the scope menu: **Utility > Utility Setup > Options tab**
 
-Il campo mostra ad esempio `ScopeID: 2F0DAB-DE` — usare **solo** `2F0DAB` (i 6 caratteri prima del trattino).
+The field shows e.g. `ScopeID: 2F0DAB-DE` — use **only** `2F0DAB` (the 6 characters before the dash).
 
 ---
 
-## Dove trovare options.cfg
+## Where to find options.cfg
 
-- **Scope Windows-based (X-Stream):** `C:\Program Files\Lecroy\X-STREAM options.cfg`
-- **Scope vxfusion (DDA/WP9xx):** estrarre dal pacchetto firmware con innoextract o 7-Zip
-- **Via comando remoto:** `app.Utility.Options.ScopeID`
+- **Windows-based scope (X-Stream):** `C:\Program Files\Lecroy\X-STREAM options.cfg`
+- **vxfusion scope (DDA/WP9xx):** extract from the firmware package using innoextract or 7-Zip
+- **Via remote command:** `app.Utility.Options.ScopeID`
 
-Per dettagli completi vedere [DOCUMENTATION.md](DOCUMENTATION.md).
+For full details see [DOCUMENTATION.md](DOCUMENTATION.md).

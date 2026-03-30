@@ -1,52 +1,52 @@
-# Documentazione Tecnica — LeCroy Options Recovery
+# Technical Documentation — LeCroy Options Recovery
 
-> Solo uso didattico/educativo.
+> For educational use only.
 
 ---
 
-## Indice
+## Table of contents
 
-1. [Compatibilità](#compatibilità)
-2. [Installazione dipendenze](#installazione-dipendenze)
-3. [Il ScopeID](#il-scopeid)
-4. [Il file options.cfg](#il-file-optionscfg)
+1. [Compatibility](#compatibility)
+2. [Installing dependencies](#installing-dependencies)
+3. [The ScopeID](#the-scopeid)
+4. [The options.cfg file](#the-optionscfg-file)
 5. [Script: list.py](#script-listpy)
 6. [Script: gen.py](#script-genpy)
 7. [Script: validate.py](#script-validatepy)
-8. [Struttura flags e mask](#struttura-flags-e-mask)
-9. [Formato della chiave generata](#formato-della-chiave-generata)
-10. [Architettura interna](#architettura-interna)
-11. [Note per modelli specifici](#note-per-modelli-specifici)
-12. [Problemi comuni](#problemi-comuni)
+8. [Flags and mask structure](#flags-and-mask-structure)
+9. [Generated key format](#generated-key-format)
+10. [Internal architecture](#internal-architecture)
+11. [Notes for specific models](#notes-for-specific-models)
+12. [Common issues](#common-issues)
 
 ---
 
-## Compatibilità
+## Compatibility
 
-| Piattaforma | Firmware | Compatibile |
+| Platform | Firmware | Compatible |
 |---|---|---|
-| X-Stream (WaveRunner, WavePro, SDA...) | < 8.x.x | SI |
-| X-Stream | >= 8.x.x | NO (cifratura cambiata) |
-| vxfusion (DDA260, DDA120, WP9xx, J260) | 9.3.0 | SI |
+| X-Stream (WaveRunner, WavePro, SDA...) | < 8.x.x | YES |
+| X-Stream | >= 8.x.x | NO (encryption changed) |
+| vxfusion (DDA260, DDA120, WP9xx, J260) | 9.3.0 | YES |
 
-A partire da X-Stream 8.0.0.0 LeCroy ha modificato il metodo di cifratura del database opzioni, rendendo questi tool incompatibili con le versioni moderne.
+Starting from X-Stream 8.0.0.0, LeCroy changed the encryption method for the options database, making these tools incompatible with modern firmware versions.
 
 ---
 
-## Installazione dipendenze
+## Installing dependencies
 
 ### Windows
 
 ```bat
-:: 1. Installa Python 2.7.18 da python.org/downloads/release/python-2718/
+:: 1. Install Python 2.7.18 from python.org/downloads/release/python-2718/
 
-:: 2. Installa Visual C++ Compiler for Python 2.7
-::    Cerca "Microsoft Visual C++ Compiler for Python 2.7" sul sito Microsoft
+:: 2. Install Visual C++ Compiler for Python 2.7
+::    Search for "Microsoft Visual C++ Compiler for Python 2.7" on the Microsoft website
 
-:: 3. Installa PyCrypto
+:: 3. Install PyCrypto
 pip install pycrypto
 
-:: Se pycrypto fallisce su Windows 10/11, usa pycryptodome (drop-in replacement)
+:: If pycrypto fails on Windows 10/11, use pycryptodome (drop-in replacement)
 pip install pycryptodome
 ```
 
@@ -54,79 +54,79 @@ pip install pycryptodome
 
 ```bash
 pip install pycrypto
-# oppure
+# or
 pip install pycryptodome
 ```
 
 ---
 
-## Il ScopeID
+## The ScopeID
 
-### Formato
+### Format
 
-Il ScopeID viene visualizzato dallo scope nel formato:
+The ScopeID is displayed by the scope in the following format:
 
 ```
 XXXXXX-YY
 ```
 
-Dove:
-- `XXXXXX` = 6 caratteri esadecimali = 3 byte = l'**identificativo strumento** (iid)
-- `-YY` = 2 caratteri esadecimali = 1 byte = suffisso (checksum o codice modello), **non usato dagli script**
+Where:
+- `XXXXXX` = 6 hexadecimal characters = 3 bytes = the **instrument identifier** (iid)
+- `-YY` = 2 hexadecimal characters = 1 byte = suffix (checksum or model code), **not used by the scripts**
 
-Esempio: `2F0DAB-DE` oppure `8cc6ee-79`
+Examples: `2F0DAB-DE` or `8cc6ee-79`
 
-### Come trovarlo
+### How to find it
 
-**Menu scope (X-Stream e vxfusion):**
+**Scope menu (X-Stream and vxfusion):**
 
 ```
-Utility > Utility Setup > tab "Options"
+Utility > Utility Setup > "Options" tab
 ```
 
-Il campo `ScopeID` mostra il valore completo.
+The `ScopeID` field displays the full value.
 
-**Via comando remoto (xStreamBrowser o GPIB/LAN):**
+**Via remote command (xStreamBrowser or GPIB/LAN):**
 
 ```
 app.Utility.Options.ScopeID
 app.Utility.Options.SerialNum
 ```
 
-### Quale parte usare con gen.py
+### Which part to use with gen.py
 
-**Usare SOLO i 6 caratteri prima del trattino.**
+**Use ONLY the 6 characters before the dash.**
 
 ```
-ScopeID visualizzato:  2F0DAB-DE
-Parametro per gen.py:  2F0DAB
+ScopeID shown on scope:  2F0DAB-DE
+Parameter for gen.py:    2F0DAB
 ```
 
-**Motivazione tecnica:** `gen.py` esegue `int(argv[1], 16)` e `key.py` tratta l'iid come intero a 24 bit (3 byte). Se si passa l'intero `2F0DABDE` (32 bit), il byte più significativo sovrascrive quello intermedio nei calcoli, producendo una chiave errata. Il suffisso `-DE` non fa parte dell'identificativo crittografico.
+**Technical reason:** `gen.py` calls `int(argv[1], 16)` and `key.py` treats the iid as a 24-bit integer (3 bytes). Passing the full `2F0DABDE` (32-bit) causes the most significant byte to overwrite an intermediate byte in the calculations, producing an incorrect key. The `-DE` suffix is not part of the cryptographic identifier.
 
 ---
 
-## Il file options.cfg
+## The options.cfg file
 
-Il file `X-STREAM options.cfg` è un database **cifrato con Blowfish** (stesso algoritmo usato per le chiavi) che contiene la mappa completa di tutte le opzioni disponibili per la piattaforma.
+The `X-STREAM options.cfg` file is a database **encrypted with Blowfish** (the same algorithm used for keys) that contains the complete map of all available options for the platform.
 
-### Dove trovarlo
+### Where to find it
 
-**Scope X-Stream (Windows XP/7 embedded):**
+**X-Stream scope (Windows XP/7 embedded):**
 
-Il file è presente nel filesystem dello scope:
+The file is present in the scope's filesystem:
 ```
 C:\Program Files\Lecroy\X-STREAM options.cfg
 ```
-Accessibile collegando tastiera/mouse e copiando via USB.
+Accessible by connecting a keyboard/mouse and copying via USB.
 
-**Dal pacchetto firmware (installer Windows):**
+**From the firmware package (Windows installer):**
 
-Il firmware X-Stream è distribuito come installer Inno Setup:
+X-Stream firmware is distributed as an Inno Setup installer:
 ```
 xstreamdsoinstaller_x.x.x.x.exe
 ```
-Estrarre il contenuto con uno dei seguenti tool senza eseguire l'installer:
+Extract the contents using one of the following tools without running the installer:
 
 ```bash
 # innoextract (cross-platform)
@@ -136,34 +136,34 @@ innoextract xstreamdsoinstaller_7.9.x.x.exe
 innounp -x xstreamdsoinstaller_7.9.x.x.exe
 ```
 
-Dopo l'estrazione cercare il file `X-STREAM options.cfg`.
+After extraction, look for the `X-STREAM options.cfg` file.
 
-**Download firmware:**
+**Firmware downloads:**
 - WaveRunner: https://www.teledynelecroy.com/support/softwaredownload/documents.aspx?sc=9
 - WavePro: https://www.teledynelecroy.com/support/softwaredownload/documents.aspx?sc=11
 - SDA: https://www.teledynelecroy.com/support/softwaredownload/documents.aspx?sc=16
 
-> Usare versioni firmware **7.9.x.x o precedenti**. Le versioni 8.x+ contengono un options.cfg con formato incompatibile.
+> Use firmware versions **7.9.x.x or earlier**. Versions 8.x+ contain an options.cfg with an incompatible format.
 
-**Scope vxfusion (DDA, WP9xx):**
+**vxfusion scope (DDA, WP9xx):**
 
-Il firmware vxfusion è un'immagine VxWorks binaria (non un installer Inno Setup). Provare a estrarne il contenuto con 7-Zip o binwalk. In alternativa contattare la LeCroy Owners' Group su EEVblog.
+vxfusion firmware is a binary VxWorks image (not an Inno Setup installer). Try extracting its contents with 7-Zip or binwalk. Alternatively, contact the LeCroy Owners' Group on EEVblog.
 
-### Versioni del database
+### Database versions
 
-`db.py` gestisce due versioni del formato:
-- **LicDB (v1):** formato originale
-- **LicDBv2 (v2):** aggiunge un campo `guid` per ogni componente
+`db.py` handles two format versions:
+- **LicDB (v1):** original format
+- **LicDBv2 (v2):** adds a `guid` field for each component
 
-`fromfile()` tenta prima il parsing v1; se fallisce usa v2 automaticamente.
+`fromfile()` first attempts v1 parsing; if it fails, v2 is used automatically.
 
 ---
 
 ## Script: list.py
 
-Legge e decodifica `options.cfg`, elencando tutte le opzioni disponibili con i relativi codici flags e mask.
+Reads and decodes `options.cfg`, listing all available options with their flags and mask codes.
 
-### Uso
+### Usage
 
 ```
 python list.py <options.cfg>
@@ -172,7 +172,7 @@ python list.py <options.cfg>
 ### Output
 
 ```
-FLAGS-MASK      NOME                 DESCRIZIONE
+FLAGS-MASK      NAME                 DESCRIPTION
 00-00000001     BasicFFT             Basic FFT Package
 00-00000002     BasicFunc            Basic Function Package
 00-00000008     Histogram            Histogram/Trend Package
@@ -180,30 +180,30 @@ FLAGS-MASK      NOME                 DESCRIZIONE
 ...
 ```
 
-Ogni riga rappresenta una opzione (o gruppo di opzioni con la stessa chiave).
+Each line represents an option (or group of options sharing the same key).
 
-- **FLAGS** (2 hex): corrisponde al parametro `<flags>` di gen.py
-- **MASK** (8 hex): corrisponde al parametro `<mask>` di gen.py
+- **FLAGS** (2 hex): corresponds to the `<flags>` parameter of gen.py
+- **MASK** (8 hex): corresponds to the `<mask>` parameter of gen.py
 
 ---
 
 ## Script: gen.py
 
-Genera una chiave di licenza per uno scope specifico.
+Generates a license key for a specific scope.
 
-### Uso
+### Usage
 
 ```
 python gen.py <ScopeID> <flags> <mask>
 ```
 
-| Parametro | Tipo | Descrizione |
+| Parameter | Type | Description |
 |---|---|---|
-| `ScopeID` | hex, 6 char | I 6 caratteri prima del trattino del ScopeID |
-| `flags` | hex, 2 char | Pagina opzioni (colonna 1 di list.py) |
-| `mask` | hex, 8 char | Bitmask opzioni (colonna 2 di list.py) |
+| `ScopeID` | hex, 6 chars | The 6 characters before the dash in the ScopeID |
+| `flags` | hex, 2 chars | Options page (column 1 from list.py) |
+| `mask` | hex, 8 chars | Options bitmask (column 2 from list.py) |
 
-### Esempio
+### Example
 
 ```
 python gen.py 2F0DAB 00 00000008
@@ -214,13 +214,13 @@ Output:
 A3F1-2B4C-9E87-D012
 ```
 
-Questa chiave va inserita nel menu dello scope: **Utility > Utility Setup > Options > Add Key**.
+This key must be entered in the scope menu: **Utility > Utility Setup > Options > Add Key**.
 
-### Combinare più opzioni
+### Combining multiple options
 
-Se più opzioni hanno lo stesso valore di `flags`, possono essere abilitate con **una sola chiave** eseguendo l'OR bitwise delle loro mask.
+If multiple options share the same `flags` value, they can be enabled with **a single key** by performing a bitwise OR of their masks.
 
-Esempio: abilitare `00-00000001` e `00-00000008` insieme:
+Example: enabling `00-00000001` and `00-00000008` together:
 
 ```
 python gen.py 2F0DAB 00 00000009
@@ -228,22 +228,22 @@ python gen.py 2F0DAB 00 00000009
 
 (`00000001 | 00000008 = 00000009`)
 
-> Non si possono combinare opzioni con flags diversi: ogni flags richiede una chiave separata.
+> Options with different flags values cannot be combined: each flags value requires a separate key.
 
 ---
 
 ## Script: validate.py
 
-Decodifica una chiave esistente e ne mostra i componenti (ScopeID, flags, mask). Con il file options.cfg risolve anche i nomi delle opzioni abilitate.
+Decodes an existing key and displays its components (ScopeID, flags, mask). When the options.cfg file is provided, it also resolves the names of the enabled options.
 
-### Uso
+### Usage
 
 ```
-python validate.py <chiave>
-python validate.py <chiave> <options.cfg>
+python validate.py <key>
+python validate.py <key> <options.cfg>
 ```
 
-### Esempio
+### Example
 
 ```
 python validate.py A3F1-2B4C-9E87-D012
@@ -256,7 +256,7 @@ Flags:   00
 Mask:    00000008
 ```
 
-Con options.cfg:
+With options.cfg:
 
 ```
 python validate.py A3F1-2B4C-9E87-D012 "X-STREAM options.cfg"
@@ -271,52 +271,52 @@ Options:
 00-00000008  Histogram            Histogram/Trend Package
 ```
 
-**Uso pratico:** se si hanno chiavi già installate sullo scope ma se ne è perso il significato, validate.py permette di identificare esattamente quali opzioni abilitano.
+**Practical use:** if you have keys already installed on the scope but have lost track of what they do, validate.py lets you identify exactly which options they enable.
 
 ---
 
-## Struttura flags e mask
+## Flags and mask structure
 
 ### flags
 
-Il byte `flags` seleziona la "pagina" del registro opzioni. I bit rilevanti sono:
+The `flags` byte selects the options register "page". The relevant bits are:
 
-| Bit | Valore | Effetto |
+| Bit | Value | Effect |
 |---|---|---|
-| 0 | 0x01 | Pagina 1 (secondo gruppo di 32 opzioni) |
-| 1 | 0x02 | Pagina 2 |
-| 6 | 0x40 | Swap dei byte b0/b1 dell'iid durante la codifica |
+| 0 | 0x01 | Page 1 (second group of 32 options) |
+| 1 | 0x02 | Page 2 |
+| 6 | 0x40 | Swaps bytes b0/b1 of the iid during encoding |
 
-Il "page index" usato per la ricerca in options.cfg è `flags & 0x43`.
+The page index used for the options.cfg lookup is `flags & 0x43`.
 
-Nella maggior parte delle opzioni comuni flags vale `00` o `01`.
+For most common options, flags is `00` or `01`.
 
 ### mask
 
-Il campo `mask` è un intero a 32 bit dove ogni bit corrisponde a una specifica opzione nella pagina selezionata da `flags`. Ogni bit abilitato (=1) attiva l'opzione corrispondente.
+The `mask` field is a 32-bit integer where each bit corresponds to a specific option on the page selected by `flags`. Each set bit (=1) enables the corresponding option.
 
-Esempio: `mask = 0x00000009` abilita il bit 0 e il bit 3 contemporaneamente.
+Example: `mask = 0x00000009` enables bit 0 and bit 3 simultaneously.
 
 ---
 
-## Formato della chiave generata
+## Generated key format
 
-Le chiavi hanno sempre il formato:
+Keys always follow this format:
 
 ```
 XXXX-XXXX-XXXX-XXXX
 ```
 
-16 caratteri esadecimali maiuscoli suddivisi in 4 gruppi da 4 separati da trattino.
+16 uppercase hexadecimal characters split into 4 groups of 4, separated by dashes.
 
-Internamente sono 8 byte cifrati con Blowfish ECB che codificano:
-- 3 byte: iid (ScopeID)
+Internally they are 8 bytes encrypted with Blowfish ECB encoding:
+- 3 bytes: iid (ScopeID)
 - 1 byte: flags
-- 4 byte: mask
+- 4 bytes: mask
 
 ---
 
-## Architettura interna
+## Internal architecture
 
 ```
 gen.py / validate.py
@@ -335,77 +335,77 @@ list.py / validate.py
     lec/db.py           fromfile() -> LicDB / LicDBv2
         |
         v
-    lec/crypto.py       DecryptFile()  [Blowfish ECB, blocchi da 8 byte]
+    lec/crypto.py       DecryptFile()  [Blowfish ECB, 8-byte blocks]
 ```
 
 ### lec/crypto.py
 
-Implementa la cifratura Blowfish ECB su blocchi da 8 byte. La chiave Blowfish è hardcoded nel sorgente (16 byte, offuscata con XOR). La funzione `revd()` inverte l'ordine dei byte nei due DWORD prima e dopo ogni operazione di cifratura (gestione endianness).
+Implements Blowfish ECB encryption on 8-byte blocks. The Blowfish key is hardcoded in the source (16 bytes, obfuscated with XOR). The `revd()` function reverses the byte order of the two DWORDs before and after each encryption operation (endianness handling).
 
 ### lec/key.py
 
-- `encode(iid, flags, mask)`: costruisce il plaintext `[iid(3B) | flags(1B) | mask(4B)]` in big-endian, lo cifra con Blowfish, restituisce il ciphertext come stringa `XXXX-XXXX-XXXX-XXXX`.
-- `decode(ok)`: rimuove i trattini dalla chiave, decifra, restituisce `(iid, flags, mask)`.
+- `encode(iid, flags, mask)`: builds the plaintext `[iid(3B) | flags(1B) | mask(4B)]` in big-endian, encrypts it with Blowfish, returns the ciphertext as a `XXXX-XXXX-XXXX-XXXX` string.
+- `decode(ok)`: strips dashes from the key, decrypts, returns `(iid, flags, mask)`.
 
 ### lec/db.py
 
-Legge `options.cfg` decifrandolo blocco per blocco (8 byte alla volta). Il formato decifrato è un flusso binario con record tipizzati:
+Reads `options.cfg` by decrypting it block by block (8 bytes at a time). The decrypted format is a binary stream with typed records:
 
-| Tipo ID | Tipo dato | Dimensione |
+| Type ID | Data type | Size |
 |---|---|---|
-| `0x02` | Short (uint16) | 2 byte |
-| `0x03` | Int (uint32) | 4 byte |
-| `0x08` | String (UTF-16LE) | 4 byte lunghezza + N byte |
-| `0x00` | Fine stream | — |
+| `0x02` | Short (uint16) | 2 bytes |
+| `0x03` | Int (uint32) | 4 bytes |
+| `0x08` | String (UTF-16LE) | 4-byte length + N bytes |
+| `0x00` | End of stream | — |
 
-Le strutture principali nel database sono: categorie, componenti, mappature, opzioni, flag abilitazione.
+The main structures in the database are: categories, components, mappings, options, enable flags.
 
 ---
 
-## Note per modelli specifici
+## Notes for specific models
 
 ### DDA260 / DDA120 / WP9xx (vxfusion 9.3.0)
 
-- Lo scope **non gira su Windows**: usa VxWorks, quindi non è possibile accedere direttamente al filesystem per copiare `options.cfg`.
-- Il ScopeID si trova in **Utility > Utility Setup > Options**.
-- Il firmware vxfusion si chiama semplicemente `vxfusion` (immagine binaria VxWorks).
-- Il suffisso del ScopeID (es. `-DE`) è specifico del modello ma non influisce sulla generazione delle chiavi.
-- Confermato funzionante: DDA-120 con firmware 9.3.0 (fonte: forum EEVblog + fetaudio.com).
+- The scope **does not run Windows**: it uses VxWorks, so direct filesystem access to copy `options.cfg` is not possible.
+- The ScopeID is found under **Utility > Utility Setup > Options**.
+- The vxfusion firmware is simply named `vxfusion` (VxWorks binary image).
+- The ScopeID suffix (e.g. `-DE`) is model-specific but does not affect key generation.
+- Confirmed working: DDA-120 with firmware 9.3.0 (source: EEVblog forum + fetaudio.com).
 
 ### WaveRunner Xi/MXi/6000 (X-Stream < 8.x.x)
 
-- Gira su Windows XP embedded.
-- `options.cfg` si trova in `C:\Program Files\Lecroy\`.
-- Accessibile via USB dopo aver collegato tastiera e mouse.
+- Runs on Windows XP embedded.
+- `options.cfg` is located at `C:\Program Files\Lecroy\`.
+- Accessible via USB after connecting a keyboard and mouse.
 
 ---
 
-## Problemi comuni
+## Common issues
 
 ### `ImportError: No module named Crypto`
 
-PyCrypto non è installato o non viene trovato.
+PyCrypto is not installed or cannot be found.
 
 ```bat
 pip install pycrypto
-:: oppure, se il precedente fallisce su Windows 10/11:
+:: or, if the above fails on Windows 10/11:
 pip install pycryptodome
 ```
 
 ### `ValueError: invalid literal for int() with base 16`
 
-Il ScopeID passato a gen.py contiene caratteri non esadecimali. Assicurarsi di usare solo i 6 caratteri prima del trattino (es. `2F0DAB` invece di `2F0DAB-DE`).
+The ScopeID passed to gen.py contains non-hexadecimal characters. Make sure to use only the 6 characters before the dash (e.g. `2F0DAB` instead of `2F0DAB-DE`).
 
-### `list.py` non produce output / errore sul file
+### `list.py` produces no output / file error
 
-Il file `options.cfg` è di una versione 8.x o superiore, incompatibile. Usare un `options.cfg` da firmware 7.9.x.x o precedente.
+The `options.cfg` file is from version 8.x or later, which is incompatible. Use an `options.cfg` from firmware 7.9.x.x or earlier.
 
-### La chiave generata non viene accettata dallo scope
+### The generated key is not accepted by the scope
 
-- Verificare di usare il ScopeID corretto dello scope destinatario (non quello di un altro strumento).
-- Verificare che flags e mask corrispondano a opzioni reali presenti nel database.
-- Verificare la compatibilità del firmware.
+- Make sure you are using the correct ScopeID for the target scope (not one from a different instrument).
+- Make sure the flags and mask correspond to real options present in the database.
+- Check firmware compatibility.
 
-### `IOError` o errore di apertura file
+### `IOError` or file open error
 
-Verificare che il percorso di `options.cfg` sia corretto e che il file non sia aperto da altri processi.
+Make sure the path to `options.cfg` is correct and the file is not open by another process.

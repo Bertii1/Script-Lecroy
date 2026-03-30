@@ -1,1 +1,5 @@
 pycryptodome>=3.0
+
+# Per costruire l'eseguibile standalone:
+# pip install pyinstaller
+# python build_exe.py
