@@ -1,0 +1,1292 @@
+[
+  {
+    "code": "00-00000001",
+    "key": "WSTATSTD",
+    "description": "WaveStation Standard Option"
+  },
+  {
+    "code": "00-00000002",
+    "key": "DDM2",
+    "description": "Disk Drive Measurement package for WaveMaster"
+  },
+  {
+    "code": "00-00000004",
+    "key": "XWAV",
+    "description": "Advanced Analysis Package for WaveMaster family"
+  },
+  {
+    "code": "00-00000008",
+    "key": "XMAP",
+    "description": "Master Analysis Package for Wavemaster family"
+  },
+  {
+    "code": "00-00000010",
+    "key": "JTA2",
+    "description": "Jitter and Timing Analysis package for Wavemaster"
+  },
+  {
+    "code": "00-00000020",
+    "key": "DEV",
+    "description": "INTERNAL USE ONLY for software development."
+  },
+  {
+    "code": "00-00000040",
+    "key": "DFP2",
+    "description": "Digital filter package"
+  },
+  {
+    "code": "00-00000080",
+    "key": "JLITE",
+    "description": "Introductory Jitter and Timing package"
+  },
+  {
+    "code": "00-00000100",
+    "key": "XMATH",
+    "description": "Math option (subset of xmap)"
+  },
+  {
+    "code": "00-00000200",
+    "key": "XDEV",
+    "description": "Customization option (subset of XMAP) includes customDSO,  custom processors and PWE"
+  },
+  {
+    "code": "00-00000400",
+    "key": "SDM",
+    "description": "Serial Data analysis for scopes"
+  },
+  {
+    "code": "00-00000800",
+    "key": "ASDA",
+    "description": "Adv SDA (for SDA only)"
+  },
+  {
+    "code": "00-00001000",
+    "key": "PMA2",
+    "description": "Power Measure Analysis"
+  },
+  {
+    "code": "00-00002000",
+    "key": "USB2",
+    "description": "USB 2.0 Test package"
+  },
+  {
+    "code": "00-00004000",
+    "key": "ENET",
+    "description": "Ethernet test package"
+  },
+  {
+    "code": "00-00008000",
+    "key": "IRTEST",
+    "description": "Master 'IRTEST' option, to be used ONLY by developers."
+  },
+  {
+    "code": "00-00010000",
+    "key": "TDR",
+    "description": "Time domain reflectometry option"
+  },
+  {
+    "code": "00-00020000",
+    "key": "ET",
+    "description": "Electrical telecom pacakge"
+  },
+  {
+    "code": "00-00040000",
+    "key": "PCIE",
+    "description": "PCI Express test package"
+  },
+  {
+    "code": "00-00080000",
+    "key": "JCLK",
+    "description": "Clock Jitter Package"
+  },
+  {
+    "code": "00-00100000",
+    "key": "MSURF",
+    "description": "Advanced Math package for WaveSurfer"
+  },
+  {
+    "code": "00-00200000",
+    "key": "CAN01",
+    "description": "CAN trigger and waveform decode capabiility"
+  },
+  {
+    "code": "00-00400000",
+    "key": "CAN02",
+    "description": "Advanced CAN analysis (protocol decode)"
+  },
+  {
+    "code": "00-00800000",
+    "key": "NRL",
+    "description": "Special feature for Naval Research Labs"
+  },
+  {
+    "code": "00-01000000",
+    "key": "LA",
+    "description": "Logic Analsis option"
+  },
+  {
+    "code": "00-02000000",
+    "key": "SATA",
+    "description": "Serial ATA option for SDA"
+  },
+  {
+    "code": "00-04000000",
+    "key": "AORM",
+    "description": "Optical recording package"
+  },
+  {
+    "code": "00-08000000",
+    "key": "XWEB",
+    "description": "Processing web editor"
+  },
+  {
+    "code": "00-10000000",
+    "key": "DMOD",
+    "description": "Demodulation"
+  },
+  {
+    "code": "00-20000000",
+    "key": "EMC",
+    "description": "EM conformance"
+  },
+  {
+    "code": "00-40000000",
+    "key": "VBA",
+    "description": "VBA (vehicul bus analyzer), multi-decode, multi-zoom capability"
+  },
+  {
+    "code": "00-80000000",
+    "key": "USB3_TD",
+    "description": "USB3 Trigger & Decode option"
+  },
+  {
+    "code": "01-00000001",
+    "key": "-M",
+    "description": "Medium memory length option"
+  },
+  {
+    "code": "01-00000002",
+    "key": "-L",
+    "description": "Long memory length option"
+  },
+  {
+    "code": "01-00000004",
+    "key": "-VL",
+    "description": "Very Long memory length option"
+  },
+  {
+    "code": "01-00000008",
+    "key": "-XL",
+    "description": "eXtra Long memory length option"
+  },
+  {
+    "code": "01-00000010",
+    "key": "GPIB1",
+    "description": "GPIB driver"
+  },
+  {
+    "code": "01-00000020",
+    "key": "-XXL",
+    "description": "Xtra Xtra long memory option"
+  },
+  {
+    "code": "01-00000040",
+    "key": "FE2",
+    "description": "Front end (alternate Front end - e.g. Davinci FE for WM)"
+  },
+  {
+    "code": "01-00000080",
+    "key": "MTT",
+    "description": "Enables MTT acquisition board"
+  },
+  {
+    "code": "01-00000100",
+    "key": "-S",
+    "description": "short memory option"
+  },
+  {
+    "code": "01-00000200",
+    "key": "ATP",
+    "description": "Advanced Trigger Package"
+  },
+  {
+    "code": "01-00000400",
+    "key": "EXCLK",
+    "description": "External Clock option for WS"
+  },
+  {
+    "code": "01-00000800",
+    "key": "ADVRC",
+    "description": "Advanced Response control"
+  },
+  {
+    "code": "01-00001000",
+    "key": "GPIBU",
+    "description": "USB GPIB"
+  },
+  {
+    "code": "01-00002000",
+    "key": "DEMOSCOPE",
+    "description": "Flag scope as a Demo Scope, enables certain sales-oriented features"
+  },
+  {
+    "code": "01-00004000",
+    "key": "I2C",
+    "description": "I2C protocol decode"
+  },
+  {
+    "code": "01-00008000",
+    "key": "SPI",
+    "description": "SPI protocol decode"
+  },
+  {
+    "code": "01-00010000",
+    "key": "UART",
+    "description": "UART protocol decode"
+  },
+  {
+    "code": "01-00020000",
+    "key": "USART",
+    "description": "USART protocol decode"
+  },
+  {
+    "code": "01-00040000",
+    "key": "LIN",
+    "description": "LIN protocol decode"
+  },
+  {
+    "code": "01-00080000",
+    "key": "FLX",
+    "description": "FlexRay protocol decode"
+  },
+  {
+    "code": "01-00100000",
+    "key": "CAN",
+    "description": ""
+  },
+  {
+    "code": "01-00200000",
+    "key": "MSXX",
+    "description": "MSxx option"
+  },
+  {
+    "code": "01-00400000",
+    "key": "FLX_PHY",
+    "description": ""
+  },
+  {
+    "code": "01-00800000",
+    "key": "MMODEL",
+    "description": "M model for WR Xi and WS Xs scope. (April 6, 2015)Added suppor for 6Zi series."
+  },
+  {
+    "code": "01-01000000",
+    "key": "WIMAX",
+    "description": "Enable WiMax SW package"
+  },
+  {
+    "code": "01-02000000",
+    "key": "SDAMODEL",
+    "description": "Turn a WP Zi into a SDA model"
+  },
+  {
+    "code": "01-04000000",
+    "key": "DDAMODEL",
+    "description": "Turn a WP Zi into DDA Zi model"
+  },
+  {
+    "code": "01-08000000",
+    "key": "I2S_TDG",
+    "description": "I2S protocol decode"
+  },
+  {
+    "code": "01-10000000",
+    "key": "CAN01i",
+    "description": "CAN trigger In Box"
+  },
+  {
+    "code": "01-20000000",
+    "key": "CAN02i",
+    "description": "same as CAN02 but with internal trigger"
+  },
+  {
+    "code": "01-40000000",
+    "key": "VBAi",
+    "description": "same as VBA but with CAN internal trigger"
+  },
+  {
+    "code": "01-80000000",
+    "key": "I2S_TD",
+    "description": "option I2S trigger & decode"
+  },
+  {
+    "code": "02-00000001",
+    "key": "DDA",
+    "description": "standard options for Disk Drive Analyzer Family"
+  },
+  {
+    "code": "02-00000002",
+    "key": "MIL1553",
+    "description": "MIL1553 protocol decode"
+  },
+  {
+    "code": "02-00000004",
+    "key": "QPHY-UWB",
+    "description": "QualiPHY UWB option"
+  },
+  {
+    "code": "02-00000008",
+    "key": "SIM",
+    "description": "For SW QA: indicates real hw NOT present"
+  },
+  {
+    "code": "02-00000010",
+    "key": "QPHY-USB3",
+    "description": ""
+  },
+  {
+    "code": "02-00000020",
+    "key": "SVC1",
+    "description": "Service option"
+  },
+  {
+    "code": "02-00000040",
+    "key": "SVC2",
+    "description": "Developer's code in service menu"
+  },
+  {
+    "code": "02-00000080",
+    "key": "HW",
+    "description": "Hidden option for software QA testing - indicates hardware is present"
+  },
+  {
+    "code": "02-00000100",
+    "key": "BETA",
+    "description": "Enables features for beta testing"
+  },
+  {
+    "code": "02-00000200",
+    "key": "SDA",
+    "description": "Serial Data Analyzer"
+  },
+  {
+    "code": "02-00000400",
+    "key": "QPHY-DDR3",
+    "description": "QualiPHY DDR3"
+  },
+  {
+    "code": "02-00000800",
+    "key": "F16",
+    "description": "Maxtor head tester capability (model LSA1225 )"
+  },
+  {
+    "code": "02-00001000",
+    "key": "QPHY-DDR1",
+    "description": "QualiPHY DDR1"
+  },
+  {
+    "code": "02-00002000",
+    "key": "ARINC429",
+    "description": "ARINC429 trigger decode option"
+  },
+  {
+    "code": "02-00004000",
+    "key": "DPHY-DECODE",
+    "description": "MIPI-DPHY option for decode"
+  },
+  {
+    "code": "02-00008000",
+    "key": "SATA_TD",
+    "description": "SATA Trigger & Decode option"
+  },
+  {
+    "code": "02-00010000",
+    "key": "USB2_TD",
+    "description": "USB2 Trigger & Decode"
+  },
+  {
+    "code": "02-00020000",
+    "key": "DECODE_MEASURE",
+    "description": "Enable serial decode generic measure"
+  },
+  {
+    "code": "02-00040000",
+    "key": "PCIE_D",
+    "description": "Serial Decode - PCIe high level decode"
+  },
+  {
+    "code": "02-00080000",
+    "key": "JA",
+    "description": "Standard option for Jitter and Timing analyzer (NOT USED ?)"
+  },
+  {
+    "code": "02-00100000",
+    "key": "FBDIMM",
+    "description": "FBDIMM analysis package"
+  },
+  {
+    "code": "02-00200000",
+    "key": "8B10B-BUS",
+    "description": "Serial Bus Analyzer - 8B10B decoding"
+  },
+  {
+    "code": "02-00400000",
+    "key": "FSB",
+    "description": "Front Side Bus Analysis Package"
+  },
+  {
+    "code": "02-00800000",
+    "key": "SAS",
+    "description": "SAS conformance test package"
+  },
+  {
+    "code": "02-01000000",
+    "key": "HDMI",
+    "description": "HDMI conformance test package"
+  },
+  {
+    "code": "02-02000000",
+    "key": "UWB",
+    "description": "UWB analysis package"
+  },
+  {
+    "code": "02-04000000",
+    "key": "WSCAN",
+    "description": "WaveScanner Standard mode"
+  },
+  {
+    "code": "02-08000000",
+    "key": "LABNOTE",
+    "description": "Lab Notebook option for WS scopes"
+  },
+  {
+    "code": "02-10000000",
+    "key": "SPECTRUM",
+    "description": "Spectrum Analyzer Option"
+  },
+  {
+    "code": "02-20000000",
+    "key": "QPHY-DDR2",
+    "description": "QualiPHY DDR2"
+  },
+  {
+    "code": "02-40000000",
+    "key": "QPHY-SATA6G",
+    "description": "Tested by QualiPHY to enable SATA 6 Gb/s tests"
+  },
+  {
+    "code": "02-80000000",
+    "key": "8CH-SYNC",
+    "description": "Option to synchronize 2 scopes together"
+  },
+  {
+    "code": "03-00000001",
+    "key": "HBW",
+    "description": "high bandwidth option"
+  },
+  {
+    "code": "03-00000002",
+    "key": "VHBW",
+    "description": "Very high bandwidth option"
+  },
+  {
+    "code": "03-00000004",
+    "key": "HBWA",
+    "description": "Advanced high bandwidth option"
+  },
+  {
+    "code": "03-00000008",
+    "key": "MBW",
+    "description": "Medium bandwidth option"
+  },
+  {
+    "code": "03-00000010",
+    "key": "LBW",
+    "description": "Low bandwidth option"
+  },
+  {
+    "code": "03-00000020",
+    "key": "RSR",
+    "description": "Reduced Sample Rate"
+  },
+  {
+    "code": "03-00000040",
+    "key": "MSR",
+    "description": "Maximum Sample Rate"
+  },
+  {
+    "code": "03-00000080",
+    "key": "2CHAN",
+    "description": "Sets the number of channels to 2 - normally this is auto detected in HW (for S65) but this allows you to override a 4 channel scope"
+  },
+  {
+    "code": "03-00000100",
+    "key": "FEAT_HASNEWDISPLAY",
+    "description": "Does this scope have a 'new' display, used initially for WaveRunner 6000 A series scopes. Available also as a hidden, restricted, issuable option to support retrofits."
+  },
+  {
+    "code": "03-00000200",
+    "key": "DHO",
+    "description": "For Jafar scopes only;  Allows DHO option"
+  },
+  {
+    "code": "03-00000400",
+    "key": "VLBW",
+    "description": "Very Low Bandwitdh option"
+  },
+  {
+    "code": "03-00000800",
+    "key": "CIS",
+    "description": "Enable CIS acquisition mode on a WaveExpert (Sampling Scope)"
+  },
+  {
+    "code": "03-00001000",
+    "key": "ITDA",
+    "description": "Iconnect TDA option for WaveExpert (Sampling Scope)"
+  },
+  {
+    "code": "03-00002000",
+    "key": "GT",
+    "description": "Gated Trigger option for WaveExpert (Sampling Scopes)"
+  },
+  {
+    "code": "03-00004000",
+    "key": "WE_NRO",
+    "description": "Hardware option for a WaveExpert (sampling scope) to make it a NRO9100 (CIS acquisition)"
+  },
+  {
+    "code": "03-00008000",
+    "key": "WE_SDA",
+    "description": "Hardware option for a WaveExpert (sampling scope) to make it a SDA100G (CIS acquisition + SDA software)"
+  },
+  {
+    "code": "03-00010000",
+    "key": "DBI2",
+    "description": "bandwidth quadrupler (Digital Bandwidth Interleave - 2=2nd gen) - all 4 channels interleaved"
+  },
+  {
+    "code": "03-00020000",
+    "key": "RESTRICT",
+    "description": "Restrict Desktop access"
+  },
+  {
+    "code": "03-00040000",
+    "key": "STAT",
+    "description": "Statistic package for WaveRunner scopes"
+  },
+  {
+    "code": "03-00080000",
+    "key": "DBI",
+    "description": "bandwidth quadrupler (Digital Bandwidth Interleave) - 3 channels interleaved"
+  },
+  {
+    "code": "03-00100000",
+    "key": "DBBW",
+    "description": "DBI reduced bandwidth"
+  },
+  {
+    "code": "03-00200000",
+    "key": "D2CH",
+    "description": "DBI - 2 low bw channels"
+  },
+  {
+    "code": "03-00400000",
+    "key": "EYEDR_EQ",
+    "description": "Eye Doctor software option"
+  },
+  {
+    "code": "03-00800000",
+    "key": "HDTV",
+    "description": "HDTV trigger option"
+  },
+  {
+    "code": "03-01000000",
+    "key": "EYEDR_VP",
+    "description": "Eye Doctor - Virtual probe  software option"
+  },
+  {
+    "code": "03-02000000",
+    "key": "NGUI",
+    "description": "Next-Gen UI"
+  },
+  {
+    "code": "03-04000000",
+    "key": "QPHY-USB",
+    "description": "QualiPHY USB"
+  },
+  {
+    "code": "03-08000000",
+    "key": "QPHY-ENET",
+    "description": "QualiPHY Ethernet"
+  },
+  {
+    "code": "03-10000000",
+    "key": "QPHY-PCIE",
+    "description": "QualiPHY PCI Express"
+  },
+  {
+    "code": "03-20000000",
+    "key": "QPHY-SATA",
+    "description": "QualiPHY Serial ATA"
+  },
+  {
+    "code": "03-40000000",
+    "key": "QPHY-HDMI",
+    "description": "QualiPHY option for HDMI"
+  },
+  {
+    "code": "03-80000000",
+    "key": "QPSK",
+    "description": "QPSK analysis"
+  },
+  {
+    "code": "08-00000002",
+    "key": "BW100G",
+    "description": "BW option for 100 G scopes"
+  },
+  {
+    "code": "08-00000004",
+    "key": "FEAT_STREAMING",
+    "description": ""
+  },
+  {
+    "code": "08-00000008",
+    "key": "SI_STUDIO3",
+    "description": "SI_STUDIO but with SDA3"
+  },
+  {
+    "code": "08-00000010",
+    "key": "BW59G",
+    "description": "Beta code for 59 Ghz scopes. This option must be restricted and non maskable."
+  },
+  {
+    "code": "08-00000020",
+    "key": "BMODEL",
+    "description": "B Model definition. This option should be used to make -B model scopes."
+  },
+  {
+    "code": "08-00000040",
+    "key": "CAN_TDM_SYMB",
+    "description": "Enables CAN TDM Symbolic capabilities. = CAN_TDM + SYMBOLIC_DECODE"
+  },
+  {
+    "code": "08-00000080",
+    "key": "CAN_FD_TDM_SYMB",
+    "description": "Can FD TDM Symbolic capabilities. = CAN_FD_TDM + SYMBOLIC_DECODE"
+  },
+  {
+    "code": "08-00000100",
+    "key": "CUST_CEA_PSC",
+    "description": "This option appends HDO8K model name with -CEA-PSC. For use together with board test data app.MauiKernel.Acquisition.Boards(\"Mag12AcqBoard\").Calibration.Btd.MainBoardBTD.PrecisionSkew to enable precision calibration on HDO8K."
+  },
+  {
+    "code": "08-00000200",
+    "key": "VSALITE",
+    "description": "2 streams, no matlab, no burst (compared standard VSA)"
+  },
+  {
+    "code": "08-00000400",
+    "key": "VSAOFDM",
+    "description": "VSA (standard) plus OFDM"
+  },
+  {
+    "code": "08-00000800",
+    "key": "ARINC429_DME_SYMB",
+    "description": "Allow trigger, decode, measure and PHY feature for ARINC429 symbolic"
+  },
+  {
+    "code": "08-00001000",
+    "key": "FLX_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for FlexRay"
+  },
+  {
+    "code": "08-00002000",
+    "key": "I2C_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for I2C"
+  },
+  {
+    "code": "08-00004000",
+    "key": "SPI_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for SPI"
+  },
+  {
+    "code": "08-00008000",
+    "key": "UART_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for UART"
+  },
+  {
+    "code": "08-00010000",
+    "key": "USB2_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for USB2"
+  },
+  {
+    "code": "08-00020000",
+    "key": "QSCAPE",
+    "description": "This options enables tabbed landscape mode."
+  },
+  {
+    "code": "08-00040000",
+    "key": "VSALITEPLUS",
+    "description": "VSALITE plus matlab plus custom modulation"
+  },
+  {
+    "code": "40-00000001",
+    "key": "BANKTST",
+    "description": "Internal test of bank expansion mechanism"
+  },
+  {
+    "code": "40-00000002",
+    "key": "LXI",
+    "description": "LXI Standard Support"
+  },
+  {
+    "code": "40-00000004",
+    "key": "CBL_DBED",
+    "description": "Cable de-embedding"
+  },
+  {
+    "code": "40-00000008",
+    "key": "SDA2",
+    "description": "SDA \"2\" summer 2008 revision of SDA"
+  },
+  {
+    "code": "40-00000010",
+    "key": "QPHY-DP",
+    "description": "QualiPHY Display Port"
+  },
+  {
+    "code": "40-00000020",
+    "key": "LSIB",
+    "description": "LSIB hardware option"
+  },
+  {
+    "code": "40-00000040",
+    "key": "EYEDR2",
+    "description": "option for Eye Dr 2"
+  },
+  {
+    "code": "40-00000080",
+    "key": "QPHY-MIPI-DPHY",
+    "description": "Enable MIPI D-PHY PHYsical measurements and Debug Mgr"
+  },
+  {
+    "code": "40-00000100",
+    "key": "REMXLATE",
+    "description": "Remote Command Translator (Used for SCPI, and other, translators)"
+  },
+  {
+    "code": "40-00000200",
+    "key": "toVSA",
+    "description": "Reveals ability to save waveform as csv \"with VSA header\" subformat; and adds a button \"Send To VSA\" which saves the file and then loads it up in VSA."
+  },
+  {
+    "code": "40-00000400",
+    "key": "PSG_PETRACER",
+    "description": "Integration of the scope with PSG's PE tracer application"
+  },
+  {
+    "code": "40-00000800",
+    "key": "PSG_BITTRACER",
+    "description": "Integration of the scope with PSG's Bit tracer application"
+  },
+  {
+    "code": "40-00001000",
+    "key": "DIGRF_V4_D",
+    "description": "DIGRF V4 decode"
+  },
+  {
+    "code": "40-00002000",
+    "key": "QPHY-SAS2",
+    "description": "Enables features required for Qualify for physical parametric testing for SAS-2 including 1.5Gbps, 3Gbps and 6Gps (and required processors)"
+  },
+  {
+    "code": "40-00004000",
+    "key": "EFABUS",
+    "description": "EFAbus decode"
+  },
+  {
+    "code": "40-00008000",
+    "key": "DIGRF_3G_D",
+    "description": "DigRF 3G decode"
+  },
+  {
+    "code": "40-00010000",
+    "key": "AMGEN",
+    "description": "AMGEN (Manual Generation) option, not for use by Customers."
+  },
+  {
+    "code": "40-00020000",
+    "key": "FIBER_CH_TD",
+    "description": "Option Fiber Channel TD"
+  },
+  {
+    "code": "40-00040000",
+    "key": "SAS_TD",
+    "description": "Option SAS TD"
+  },
+  {
+    "code": "40-00080000",
+    "key": "QPHY-PCIE3",
+    "description": "QualiPHY PCI Express Gen 3.0 script"
+  },
+  {
+    "code": "40-00100000",
+    "key": "ENET100G",
+    "description": "Parameters (in SDA2 Jitter Measure) for 802.3ba, 40 and 100G Ethernet"
+  },
+  {
+    "code": "40-00200000",
+    "key": "MPHY-DECODE",
+    "description": "MIPI MPHY decode"
+  },
+  {
+    "code": "40-00400000",
+    "key": "QPHY-MIPI-MPHY",
+    "description": "QPHY MIPI MPHY script option"
+  },
+  {
+    "code": "40-00800000",
+    "key": "JITKIT",
+    "description": "Basic (clock) jitter package"
+  },
+  {
+    "code": "40-01000000",
+    "key": "SERIALPAT_T",
+    "description": "Option enabling Serial Pattern Trigger on Magellan scopes"
+  },
+  {
+    "code": "40-02000000",
+    "key": "QPHY-LPDDR2",
+    "description": "QPHY LPDDR2 option"
+  },
+  {
+    "code": "40-04000000",
+    "key": "64B66B-BUS",
+    "description": "64B66B decode option"
+  },
+  {
+    "code": "40-08000000",
+    "key": "USB2-HSIC-BUS",
+    "description": "High Speed Inter Circuit bus (USB2  digital)"
+  },
+  {
+    "code": "40-10000000",
+    "key": "MPHY-PHY",
+    "description": "MPHY decode & physical layer measure"
+  },
+  {
+    "code": "40-20000000",
+    "key": "DPHY-PHY",
+    "description": "DPHY decode & physical layer measure"
+  },
+  {
+    "code": "40-40000000",
+    "key": "10G-ENET-BUS",
+    "description": "10G-ENET trigger & decode option"
+  },
+  {
+    "code": "40-80000000",
+    "key": "SDA3",
+    "description": "SDA revision 3"
+  },
+  {
+    "code": "41-00000001",
+    "key": "CONFIG-BUS",
+    "description": "Configurable Decode"
+  },
+  {
+    "code": "41-00000002",
+    "key": "VPROBE",
+    "description": "Virtual probe manager"
+  },
+  {
+    "code": "41-00000004",
+    "key": "JITCOMP",
+    "description": "Rj corrected for vertical noise"
+  },
+  {
+    "code": "41-00000008",
+    "key": "QPHY-10GKR",
+    "description": "allow the QualPHY 10GBase-KR script to run when connected to this scope"
+  },
+  {
+    "code": "41-00000010",
+    "key": "SRIO-BUS",
+    "description": "Option Serial Rapid IO decode"
+  },
+  {
+    "code": "41-00000020",
+    "key": "EMMC-BUS",
+    "description": "eMMC decode"
+  },
+  {
+    "code": "41-00000040",
+    "key": "QPHY-MOST150",
+    "description": "Enables this QPHY script"
+  },
+  {
+    "code": "41-00000080",
+    "key": "QPHY-MOST50",
+    "description": "Enables this QPHY script"
+  },
+  {
+    "code": "41-00000100",
+    "key": "10-100M-ENET-BUS",
+    "description": "10-100M Ethernet (trigger) + decode option"
+  },
+  {
+    "code": "41-00000200",
+    "key": "25-28G-ENET-BUS",
+    "description": "25-28G Ethernet (trigger) + decode option"
+  },
+  {
+    "code": "41-00000400",
+    "key": "GDDR5-BUS",
+    "description": "GDDR5  decode option"
+  },
+  {
+    "code": "41-00000800",
+    "key": "QPHY-BRR",
+    "description": "Enable BroadR-Reach QPHY script"
+  },
+  {
+    "code": "41-00001000",
+    "key": "QPHY-GDDR5",
+    "description": "QualiPHY GDDR5"
+  },
+  {
+    "code": "41-00002000",
+    "key": "4x10GENET_D",
+    "description": "4x10G decoder"
+  },
+  {
+    "code": "41-00004000",
+    "key": "QPHY-SFI",
+    "description": "Enable QPHY-SFI script"
+  },
+  {
+    "code": "41-00008000",
+    "key": "SENT",
+    "description": "SENT protocol decode"
+  },
+  {
+    "code": "41-00010000",
+    "key": "PSI5",
+    "description": "PSI5 protocol decode"
+  },
+  {
+    "code": "41-00020000",
+    "key": "SPACEWIRE",
+    "description": "SpaceWire protocol decode"
+  },
+  {
+    "code": "41-00040000",
+    "key": "SDA3-LINQ",
+    "description": "SDA3 multilane"
+  },
+  {
+    "code": "41-00080000",
+    "key": "64B67B-BUS",
+    "description": "Option 64b67b-BUS"
+  },
+  {
+    "code": "41-00100000",
+    "key": "PWR_ANALYSIS",
+    "description": "New Power Measure Analysis Package"
+  },
+  {
+    "code": "41-00200000",
+    "key": "VSA",
+    "description": "Option for Vector Spectrum Analyzer"
+  },
+  {
+    "code": "41-00400000",
+    "key": "NRZ-BUS",
+    "description": "Option NRZ decoder"
+  },
+  {
+    "code": "41-00800000",
+    "key": "MANCHESTER-BUS",
+    "description": "Option Manchester decoder"
+  },
+  {
+    "code": "41-01000000",
+    "key": "QPHY-DDR4",
+    "description": "QualiPHY DDR4"
+  },
+  {
+    "code": "41-02000000",
+    "key": "OMA",
+    "description": "Optical Modulation Analyzer"
+  },
+  {
+    "code": "41-04000000",
+    "key": "QPHY-10GBT",
+    "description": "QualiPHY 10GBase-T"
+  },
+  {
+    "code": "41-08000000",
+    "key": "CAN_TD",
+    "description": "CAN trigger and decode option using new engine"
+  },
+  {
+    "code": "41-10000000",
+    "key": "CAN_FD_TD",
+    "description": "CAN FD trigger and decode option using new engine supporting FD"
+  },
+  {
+    "code": "41-20000000",
+    "key": "QPHY-SAS3",
+    "description": "QualiPhy SAS3 testing"
+  },
+  {
+    "code": "41-40000000",
+    "key": "LANG_ENGLISH",
+    "description": "Enable the English language on scopes that do not have it by default (Siglent)"
+  },
+  {
+    "code": "41-80000000",
+    "key": "MASK_TESTING",
+    "description": "enables pass fail testing in hardware"
+  },
+  {
+    "code": "42-00000001",
+    "key": "CAN_TDM",
+    "description": "CAN_TD + CAN_FD_Measure"
+  },
+  {
+    "code": "42-00000002",
+    "key": "CAN_FD_TDM",
+    "description": "= CAN_FD_TD + CAN_FD_Measure"
+  },
+  {
+    "code": "42-00000004",
+    "key": "VBA_FD",
+    "description": "Option VBA FD replacing VBAi"
+  },
+  {
+    "code": "42-00000008",
+    "key": "AFG",
+    "description": "enables WaveSource AWG"
+  },
+  {
+    "code": "42-00000010",
+    "key": "DDR2DEBUG",
+    "description": "Enables DDR Debug package for DDR2/LPDDR2"
+  },
+  {
+    "code": "42-00000020",
+    "key": "DDR3DEBUG",
+    "description": "Enables DDR Debug package for DDR3/DDR3L/LPDDR3 and DDR2/LPDDR2"
+  },
+  {
+    "code": "42-00000040",
+    "key": "DDR4DEBUG",
+    "description": "Enables DDR Debug package for DDR4/DDR3/DDR3L/LPDDR3/DDR2/LPDDR2"
+  },
+  {
+    "code": "42-00000080",
+    "key": "UNIPRO-DECODE",
+    "description": "enable UNIPRO decode"
+  },
+  {
+    "code": "42-00000100",
+    "key": "DVM",
+    "description": "Enable the Digital Voltage Meter (DVM) descriptor which can be used to measure the voltage and frequency of the input signal. By the day of 08/27/2014 the DVM was only implemented on SuperJet."
+  },
+  {
+    "code": "42-00000200",
+    "key": "MDA8K_MODEL",
+    "description": "MDA8K Model: Motor analysis feature on HD0_8k platform. See FEAT_MOTOR_SCOPE."
+  },
+  {
+    "code": "42-00000400",
+    "key": "QPHY-USB31",
+    "description": "Turns on FEAT_QPHY_USB31"
+  },
+  {
+    "code": "42-00000800",
+    "key": "TRIALSCOPE",
+    "description": "Mark scope as a trial scope which send to customer to try for a few days. It needs TRIAL_ACTIVATE or TRIAL_UNLOCK key to activate the scope."
+  },
+  {
+    "code": "42-00001000",
+    "key": "TRIAL_ACTIVATE",
+    "description": "Activate the trial scope so that customer could use our scope"
+  },
+  {
+    "code": "42-00002000",
+    "key": "TRIAL_UNLOCK",
+    "description": "Unlock the trial scope"
+  },
+  {
+    "code": "42-00004000",
+    "key": "QPHY-HDMI2",
+    "description": "Permit QPHY-HDMI2 script to run"
+  },
+  {
+    "code": "42-00008000",
+    "key": "QPHY-EDP",
+    "description": "Permit QPHY-eDP (embedded display port) script to run"
+  },
+  {
+    "code": "42-00010000",
+    "key": "MDA-HARMONICS",
+    "description": "Enables Harmonics features in MDA"
+  },
+  {
+    "code": "42-00020000",
+    "key": "PAM4",
+    "description": "Pulse Amplitude Modulation for SDA3"
+  },
+  {
+    "code": "42-00040000",
+    "key": "LIN_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for LIN"
+  },
+  {
+    "code": "42-00080000",
+    "key": "MIL1553_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for MIL1553"
+  },
+  {
+    "code": "42-00100000",
+    "key": "CAN_TDME_SYMB",
+    "description": "Allow trigger, decode, measure and PHY feature for CAN symbolic"
+  },
+  {
+    "code": "42-00200000",
+    "key": "CAN_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for CAN"
+  },
+  {
+    "code": "42-00400000",
+    "key": "CAN_FD_TDME",
+    "description": "Allow trigger, decode, measure and PHY feature for CAN_FD"
+  },
+  {
+    "code": "42-00800000",
+    "key": "CAN_FD_TDME_SYMB",
+    "description": "Allow trigger, decode, measure and PHY feature for CAN_FD symbolic"
+  },
+  {
+    "code": "43-00000001",
+    "key": "BW4G",
+    "description": "Bandwidth 4 GHz"
+  },
+  {
+    "code": "43-00000002",
+    "key": "BW6G",
+    "description": "Bandwidth 6 GHz"
+  },
+  {
+    "code": "43-00000004",
+    "key": "BW8G",
+    "description": "Bandwidth 8 GHz"
+  },
+  {
+    "code": "43-00000008",
+    "key": "BW10G",
+    "description": "Bandwidth 10 GHz"
+  },
+  {
+    "code": "43-00000010",
+    "key": "BW13G",
+    "description": "Bandwidth 13 GHz"
+  },
+  {
+    "code": "43-00000020",
+    "key": "BW16G",
+    "description": "Bandwidth 16 GHz"
+  },
+  {
+    "code": "43-00000040",
+    "key": "BW20G",
+    "description": "Bandwidth 20 GHz"
+  },
+  {
+    "code": "43-00000080",
+    "key": "BW25G",
+    "description": "Bandwidth 25 GHz"
+  },
+  {
+    "code": "43-00000100",
+    "key": "BW30G",
+    "description": "Bandwidth 30 GHz"
+  },
+  {
+    "code": "43-00000200",
+    "key": "GRAT",
+    "description": "Gratten Branded Scope"
+  },
+  {
+    "code": "43-00000400",
+    "key": "NMODEL",
+    "description": "Nmodel for WRXi and Xs scopes"
+  },
+  {
+    "code": "43-00000800",
+    "key": "AMODEL",
+    "description": "A model for Hawk series. This should be used for making A model in the future."
+  },
+  {
+    "code": "43-00001000",
+    "key": "BW45G",
+    "description": "45 GHz BW option"
+  },
+  {
+    "code": "43-00002000",
+    "key": "MBMODEL",
+    "description": "Option to enable MXs-B models"
+  },
+  {
+    "code": "43-00004000",
+    "key": "SI_STUDIO",
+    "description": "Signal Integrity studio option."
+  },
+  {
+    "code": "43-00008000",
+    "key": "BW36G",
+    "description": "36 GHz BW option"
+  },
+  {
+    "code": "43-00010000",
+    "key": "LM-MODEL",
+    "description": "Lab Master option"
+  },
+  {
+    "code": "43-00020000",
+    "key": "CALSOFT",
+    "description": "This option should enable required feature for Calsoft process"
+  },
+  {
+    "code": "43-00040000",
+    "key": "XTALK",
+    "description": "Enables FEAT_XTALK for crosstalk features in SDA3."
+  },
+  {
+    "code": "43-00080000",
+    "key": "HDO6K_MODEL",
+    "description": "Yater HDO 6000 option key. This key will be used to convert 4k to 6k."
+  },
+  {
+    "code": "43-00100000",
+    "key": "BW50G",
+    "description": "50 GHz BW option"
+  },
+  {
+    "code": "43-00200000",
+    "key": "BW60G",
+    "description": "60 GHz BW option"
+  },
+  {
+    "code": "43-00400000",
+    "key": "BW65G",
+    "description": "65 GHz BW option"
+  },
+  {
+    "code": "43-00800000",
+    "key": "SER_TRIGGER_6G5",
+    "description": "6.5 Gbps serial trigger option. This will limit serial trigger bitrate to 6.5 GB/s on the higher end model."
+  }
+]

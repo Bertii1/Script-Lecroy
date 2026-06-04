@@ -6,6 +6,10 @@ __pycache__/
 # PyInstaller
 build/
 dist/
+bin/
+lib/
+lib64/
+include/
 *.spec
 
 # Virtual environments
