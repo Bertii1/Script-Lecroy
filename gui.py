@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # educational use only
 """
@@ -6,25 +5,33 @@ LeCroy License Key Generator — GUI
 Requires: pycryptodome (pip install pycryptodome)
 """
 
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+OPTS_STR = ""
+
+
 import json
 import os
 import sys
+import tkinter as tk
+from io import StringIO
+from itertools import count
+from tkinter import filedialog, messagebox, ttk
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lec import db, key as lec_key
+from lec import db
+from lec import key as lec_key
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_OPTS_PATH = os.path.join(_HERE, "default_opts.json")
 
-CHECK_ON  = "☑"
+DEFAULT_OPTS = StringIO(OPTS_STR)
+
+CHECK_ON = "☑"
 CHECK_OFF = "☐"
 
 # ── Palette ────────────────────────────────────────────────────────────────────
-ROW_ODD   = "#eef2f7"
-ROW_EVEN  = "#ffffff"
-ACCENT    = "#1a5276"
+ROW_ODD = "#eef2f7"
+ROW_EVEN = "#ffffff"
+ACCENT = "#1a5276"
 MONO_FONT = ("Courier", 10)
 
 
@@ -35,13 +42,13 @@ class LeCroyGUI:
         self.root.geometry("1000x780")
         self.root.minsize(820, 620)
 
-        self.options_data: list[dict] = []   # all parsed options
+        self.options_data: list[dict] = []  # all parsed options
         self._status_var = tk.StringVar()
         self.source_var = tk.StringVar(value="default")
 
         self._setup_style()
         self._build_ui()
-        self._load_default_options()   # carica subito le opzioni predefinite
+        self._load_default_options()  # carica subito le opzioni predefinite
 
     # ── Style ──────────────────────────────────────────────────────────────────
 
@@ -52,15 +59,15 @@ class LeCroyGUI:
                 style.theme_use(theme)
                 break
 
-        style.configure("Treeview",
-                        rowheight=26,
-                        font=("TkDefaultFont", 9))
-        style.configure("Treeview.Heading",
-                        font=("TkDefaultFont", 9, "bold"),
-                        relief="flat")
-        style.map("Treeview",
-                  background=[("selected", "#2980b9")],
-                  foreground=[("selected", "#ffffff")])
+        style.configure("Treeview", rowheight=26, font=("TkDefaultFont", 9))
+        style.configure(
+            "Treeview.Heading", font=("TkDefaultFont", 9, "bold"), relief="flat"
+        )
+        style.map(
+            "Treeview",
+            background=[("selected", "#2980b9")],
+            foreground=[("selected", "#ffffff")],
+        )
         style.configure("Accent.TButton", font=("TkDefaultFont", 9, "bold"))
 
     # ── Main layout ────────────────────────────────────────────────────────────
@@ -81,8 +88,13 @@ class LeCroyGUI:
         self._build_val_tab(val_tab)
 
         # Status bar
-        sb = ttk.Label(self.root, textvariable=self._status_var,
-                       relief=tk.SUNKEN, anchor=tk.W, padding=(8, 3))
+        sb = ttk.Label(
+            self.root,
+            textvariable=self._status_var,
+            relief=tk.SUNKEN,
+            anchor=tk.W,
+            padding=(8, 3),
+        )
         sb.pack(fill=tk.X, side=tk.BOTTOM)
 
     # ── Tab 1 — Generator ──────────────────────────────────────────────────────
@@ -95,32 +107,44 @@ class LeCroyGUI:
         # Row 0 — ScopeID + source selector
         ttk.Label(cfg, text="ScopeID (6 hex):").grid(row=0, column=0, sticky=tk.W)
         self.scope_var = tk.StringVar()
-        ttk.Entry(cfg, textvariable=self.scope_var, width=10,
-                  font=MONO_FONT).grid(row=0, column=1, sticky=tk.W, padx=(4, 28))
+        ttk.Entry(cfg, textvariable=self.scope_var, width=10, font=MONO_FONT).grid(
+            row=0, column=1, sticky=tk.W, padx=(4, 28)
+        )
 
         ttk.Label(cfg, text="Sorgente opzioni:").grid(row=0, column=2, sticky=tk.W)
-        ttk.Radiobutton(cfg, text="Predefinite (39 opzioni)",
-                        variable=self.source_var, value="default",
-                        command=self._on_source_change).grid(
-                            row=0, column=3, sticky=tk.W, padx=(6, 4))
-        ttk.Radiobutton(cfg, text="Da options.cfg",
-                        variable=self.source_var, value="cfg",
-                        command=self._on_source_change).grid(
-                            row=0, column=4, sticky=tk.W, padx=(0, 8))
+        ttk.Radiobutton(
+            cfg,
+            text="Predefinite (39 opzioni)",
+            variable=self.source_var,
+            value="default",
+            command=self._on_source_change,
+        ).grid(row=0, column=3, sticky=tk.W, padx=(6, 4))
+        ttk.Radiobutton(
+            cfg,
+            text="Da options.cfg",
+            variable=self.source_var,
+            value="cfg",
+            command=self._on_source_change,
+        ).grid(row=0, column=4, sticky=tk.W, padx=(0, 8))
 
         # Row 1 — cfg path (visible only when source == "cfg")
         self._cfg_row_frame = ttk.Frame(cfg)
-        self._cfg_row_frame.grid(row=1, column=0, columnspan=6,
-                                  sticky=tk.EW, pady=(6, 0))
+        self._cfg_row_frame.grid(
+            row=1, column=0, columnspan=6, sticky=tk.EW, pady=(6, 0)
+        )
 
         ttk.Label(self._cfg_row_frame, text="File:").pack(side=tk.LEFT)
         self.cfg_path_var = tk.StringVar()
-        self._cfg_entry = ttk.Entry(self._cfg_row_frame,
-                                     textvariable=self.cfg_path_var,
-                                     state="readonly", width=55)
+        self._cfg_entry = ttk.Entry(
+            self._cfg_row_frame,
+            textvariable=self.cfg_path_var,
+            state="readonly",
+            width=55,
+        )
         self._cfg_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=6)
-        self._sfoglia_btn = ttk.Button(self._cfg_row_frame, text="Sfoglia…",
-                                        command=self._browse_cfg)
+        self._sfoglia_btn = ttk.Button(
+            self._cfg_row_frame, text="Sfoglia…", command=self._browse_cfg
+        )
         self._sfoglia_btn.pack(side=tk.LEFT)
 
         cfg.columnconfigure(5, weight=1)
@@ -145,36 +169,44 @@ class LeCroyGUI:
         tb = ttk.Frame(parent)
         tb.pack(fill=tk.X, pady=(0, 4))
 
-        ttk.Button(tb, text="Seleziona tutto",
-                   command=self._select_all).pack(side=tk.LEFT, padx=2)
-        ttk.Button(tb, text="Deseleziona tutto",
-                   command=self._deselect_all).pack(side=tk.LEFT, padx=2)
-        ttk.Separator(tb, orient=tk.VERTICAL).pack(side=tk.LEFT,
-                                                    fill=tk.Y, padx=8)
-        ttk.Button(tb, text="▶  Genera selezionate",
-                   style="Accent.TButton",
-                   command=self._gen_selected).pack(side=tk.LEFT, padx=2)
-        ttk.Button(tb, text="▶▶  Genera tutte",
-                   command=self._gen_all).pack(side=tk.LEFT, padx=2)
+        ttk.Button(tb, text="Seleziona tutto", command=self._select_all).pack(
+            side=tk.LEFT, padx=2
+        )
+        ttk.Button(tb, text="Deseleziona tutto", command=self._deselect_all).pack(
+            side=tk.LEFT, padx=2
+        )
+        ttk.Separator(tb, orient=tk.VERTICAL).pack(side=tk.LEFT, fill=tk.Y, padx=8)
+        ttk.Button(
+            tb,
+            text="▶  Genera selezionate",
+            style="Accent.TButton",
+            command=self._gen_selected,
+        ).pack(side=tk.LEFT, padx=2)
+        ttk.Button(tb, text="▶▶  Genera tutte", command=self._gen_all).pack(
+            side=tk.LEFT, padx=2
+        )
 
         # Table
         frame = ttk.Frame(parent)
         frame.pack(fill=tk.BOTH, expand=True)
 
         cols = ("sel", "code", "name", "description")
-        self.opts_tree = ttk.Treeview(frame, columns=cols, show="headings",
-                                       selectmode="browse")
-        self.opts_tree.heading("sel",         text="✓",         anchor=tk.CENTER)
-        self.opts_tree.heading("code",        text="Codice")
-        self.opts_tree.heading("name",        text="Nome")
+        self.opts_tree = ttk.Treeview(
+            frame, columns=cols, show="headings", selectmode="browse"
+        )
+        self.opts_tree.heading("sel", text="✓", anchor=tk.CENTER)
+        self.opts_tree.heading("code", text="Codice")
+        self.opts_tree.heading("name", text="Nome")
         self.opts_tree.heading("description", text="Descrizione")
 
-        self.opts_tree.column("sel",         width=38,  minwidth=38,  stretch=False, anchor=tk.CENTER)
-        self.opts_tree.column("code",        width=130, minwidth=110, stretch=False)
-        self.opts_tree.column("name",        width=170, minwidth=130, stretch=False)
+        self.opts_tree.column(
+            "sel", width=38, minwidth=38, stretch=False, anchor=tk.CENTER
+        )
+        self.opts_tree.column("code", width=130, minwidth=110, stretch=False)
+        self.opts_tree.column("name", width=170, minwidth=130, stretch=False)
         self.opts_tree.column("description", width=500)
 
-        vsb = ttk.Scrollbar(frame, orient=tk.VERTICAL,   command=self.opts_tree.yview)
+        vsb = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=self.opts_tree.yview)
         hsb = ttk.Scrollbar(frame, orient=tk.HORIZONTAL, command=self.opts_tree.xview)
         self.opts_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
@@ -184,7 +216,7 @@ class LeCroyGUI:
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
 
-        self.opts_tree.tag_configure("odd",  background=ROW_ODD)
+        self.opts_tree.tag_configure("odd", background=ROW_ODD)
         self.opts_tree.tag_configure("even", background=ROW_EVEN)
 
         self.opts_tree.bind("<Button-1>", self._on_opts_click)
@@ -194,31 +226,36 @@ class LeCroyGUI:
         tb = ttk.Frame(parent)
         tb.pack(fill=tk.X, pady=(0, 4))
 
-        ttk.Button(tb, text="Copia tutto",
-                   command=self._copy_all).pack(side=tk.LEFT, padx=2)
-        ttk.Button(tb, text="Esporta CSV",
-                   command=lambda: self._export("csv")).pack(side=tk.LEFT, padx=2)
-        ttk.Button(tb, text="Esporta TXT",
-                   command=lambda: self._export("txt")).pack(side=tk.LEFT, padx=2)
-        ttk.Button(tb, text="Pulisci",
-                   command=self._clear_results).pack(side=tk.RIGHT, padx=2)
+        ttk.Button(tb, text="Copia tutto", command=self._copy_all).pack(
+            side=tk.LEFT, padx=2
+        )
+        ttk.Button(tb, text="Esporta CSV", command=lambda: self._export("csv")).pack(
+            side=tk.LEFT, padx=2
+        )
+        ttk.Button(tb, text="Esporta TXT", command=lambda: self._export("txt")).pack(
+            side=tk.LEFT, padx=2
+        )
+        ttk.Button(tb, text="Pulisci", command=self._clear_results).pack(
+            side=tk.RIGHT, padx=2
+        )
 
         # Table
         frame = ttk.Frame(parent)
         frame.pack(fill=tk.BOTH, expand=True)
 
         cols = ("key", "name", "description")
-        self.res_tree = ttk.Treeview(frame, columns=cols, show="headings",
-                                      selectmode="browse")
-        self.res_tree.heading("key",         text="Chiave di licenza")
-        self.res_tree.heading("name",        text="Nome")
+        self.res_tree = ttk.Treeview(
+            frame, columns=cols, show="headings", selectmode="browse"
+        )
+        self.res_tree.heading("key", text="Chiave di licenza")
+        self.res_tree.heading("name", text="Nome")
         self.res_tree.heading("description", text="Descrizione")
 
-        self.res_tree.column("key",         width=205, minwidth=180, stretch=False)
-        self.res_tree.column("name",        width=170, minwidth=130, stretch=False)
+        self.res_tree.column("key", width=205, minwidth=180, stretch=False)
+        self.res_tree.column("name", width=170, minwidth=130, stretch=False)
         self.res_tree.column("description", width=500)
 
-        vsb = ttk.Scrollbar(frame, orient=tk.VERTICAL,   command=self.res_tree.yview)
+        vsb = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=self.res_tree.yview)
         hsb = ttk.Scrollbar(frame, orient=tk.HORIZONTAL, command=self.res_tree.xview)
         self.res_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
@@ -228,12 +265,14 @@ class LeCroyGUI:
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
 
-        self.res_tree.tag_configure("odd",  background=ROW_ODD)
+        self.res_tree.tag_configure("odd", background=ROW_ODD)
         self.res_tree.tag_configure("even", background=ROW_EVEN)
 
-        ttk.Label(parent,
-                  text="Doppio click su una riga per copiare la chiave.",
-                  foreground="gray").pack(anchor=tk.W, pady=(3, 0))
+        ttk.Label(
+            parent,
+            text="Doppio click su una riga per copiare la chiave.",
+            foreground="gray",
+        ).pack(anchor=tk.W, pady=(3, 0))
 
         self.res_tree.bind("<Double-Button-1>", self._copy_single_key)
 
@@ -246,31 +285,37 @@ class LeCroyGUI:
 
         ttk.Label(inp, text="Chiave:").grid(row=0, column=0, sticky=tk.W)
         self.val_key_var = tk.StringVar()
-        ttk.Entry(inp, textvariable=self.val_key_var, width=22,
-                  font=MONO_FONT).grid(row=0, column=1, padx=6)
-        ttk.Button(inp, text="Decodifica", style="Accent.TButton",
-                   command=self._validate_key).grid(row=0, column=2, padx=4)
-        ttk.Label(inp, text="(usa l'options.cfg caricato nel tab Genera)",
-                  foreground="gray").grid(row=0, column=3, padx=14)
+        ttk.Entry(inp, textvariable=self.val_key_var, width=22, font=MONO_FONT).grid(
+            row=0, column=1, padx=6
+        )
+        ttk.Button(
+            inp, text="Decodifica", style="Accent.TButton", command=self._validate_key
+        ).grid(row=0, column=2, padx=4)
+        ttk.Label(
+            inp, text="(usa l'options.cfg caricato nel tab Genera)", foreground="gray"
+        ).grid(row=0, column=3, padx=14)
 
         # Decoded fields
         info = ttk.LabelFrame(parent, text=" Informazioni chiave ", padding=10)
         info.pack(fill=tk.X, pady=(0, 8))
 
         self.val_info: dict[str, tk.StringVar] = {}
-        for col, (label, key_name) in enumerate([("ScopeID", "scope"),
-                                                  ("Flags",   "flags"),
-                                                  ("Mask",    "mask")]):
+        for col, (label, key_name) in enumerate(
+            [("ScopeID", "scope"), ("Flags", "flags"), ("Mask", "mask")]
+        ):
             ttk.Label(info, text=label + ":").grid(
-                row=0, column=col * 2, sticky=tk.W, padx=(0 if col == 0 else 30, 6))
+                row=0, column=col * 2, sticky=tk.W, padx=(0 if col == 0 else 30, 6)
+            )
             v = tk.StringVar(value="—")
             self.val_info[key_name] = v
-            ttk.Label(info, textvariable=v,
-                      font=MONO_FONT,
-                      foreground=ACCENT).grid(row=0, column=col * 2 + 1, sticky=tk.W)
+            ttk.Label(info, textvariable=v, font=MONO_FONT, foreground=ACCENT).grid(
+                row=0, column=col * 2 + 1, sticky=tk.W
+            )
 
         # Enabled options table
-        res_lf = ttk.LabelFrame(parent, text=" Opzioni abilitate da questa chiave ", padding=6)
+        res_lf = ttk.LabelFrame(
+            parent, text=" Opzioni abilitate da questa chiave ", padding=6
+        )
         res_lf.pack(fill=tk.BOTH, expand=True)
 
         frame = ttk.Frame(res_lf)
@@ -278,12 +323,12 @@ class LeCroyGUI:
 
         cols = ("code", "name", "description")
         self.val_tree = ttk.Treeview(frame, columns=cols, show="headings")
-        self.val_tree.heading("code",        text="Codice")
-        self.val_tree.heading("name",        text="Nome")
+        self.val_tree.heading("code", text="Codice")
+        self.val_tree.heading("name", text="Nome")
         self.val_tree.heading("description", text="Descrizione")
 
-        self.val_tree.column("code",        width=130, minwidth=110, stretch=False)
-        self.val_tree.column("name",        width=170, minwidth=130, stretch=False)
+        self.val_tree.column("code", width=130, minwidth=110, stretch=False)
+        self.val_tree.column("name", width=170, minwidth=130, stretch=False)
         self.val_tree.column("description", width=500)
 
         vsb = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=self.val_tree.yview)
@@ -293,7 +338,7 @@ class LeCroyGUI:
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
 
-        self.val_tree.tag_configure("odd",  background=ROW_ODD)
+        self.val_tree.tag_configure("odd", background=ROW_ODD)
         self.val_tree.tag_configure("even", background=ROW_EVEN)
 
     # ── Logic — load options ───────────────────────────────────────────────────
@@ -319,20 +364,23 @@ class LeCroyGUI:
             return
         try:
             with open(DEFAULT_OPTS_PATH, encoding="utf-8") as f:
-                raw = json.load(f)
+                raw = json.load(DEFAULT_OPTS)
             self.options_data = []
             for entry in raw:
-                code = entry["code"]          # e.g. "00-00000001"
+                code = entry["code"]  # e.g. "00-00000001"
                 flags_hex, mask_hex = code.split("-")
-                self.options_data.append({
-                    "code":        code,
-                    "name":        entry["key"],
-                    "description": entry["description"],
-                    "flags":       int(flags_hex, 16),
-                    "mask":        int(mask_hex, 16),
-                    "checked":     False,
-                    "tree_id":     None,
-                })
+                self.options_data.append(
+                    {
+                        "code": code,
+                        "name": entry["key"],
+                        "description": entry["description"],
+                        "flags": int(flags_hex, 16),
+                        "mask": int(mask_hex, 16),
+                        "checked": False,
+                        "tree_id": None,
+                    }
+                )
+            count(raw)
             self._populate_opts_tree()
             self._status(
                 f"Caricate {len(self.options_data)} opzioni predefinite da default_opts.json"
@@ -344,7 +392,7 @@ class LeCroyGUI:
     def _browse_cfg(self):
         path = filedialog.askopenfilename(
             title="Seleziona options.cfg",
-            filetypes=[("Config files", "*.cfg"), ("Tutti i file", "*.*")]
+            filetypes=[("Config files", "*.cfg"), ("Tutti i file", "*.*")],
         )
         if path:
             self.cfg_path_var.set(path)
@@ -358,20 +406,21 @@ class LeCroyGUI:
             self.options_data = []
             for opt in database.options.values():
                 mask_val = 1 << opt.bit
-                self.options_data.append({
-                    "code":        f"{opt.page:02x}-{mask_val:08x}",
-                    "name":        opt.name,
-                    "description": opt.description,
-                    "flags":       opt.page,
-                    "mask":        mask_val,
-                    "checked":     False,
-                    "tree_id":     None,
-                })
+                self.options_data.append(
+                    {
+                        "code": f"{opt.page:02x}-{mask_val:08x}",
+                        "name": opt.name,
+                        "description": opt.description,
+                        "flags": opt.page,
+                        "mask": mask_val,
+                        "checked": False,
+                        "tree_id": None,
+                    }
+                )
             self.options_data.sort(key=lambda x: x["code"])
             self._populate_opts_tree()
             self._status(
-                f"Caricate {len(self.options_data)} opzioni "
-                f"da {os.path.basename(path)}"
+                f"Caricate {len(self.options_data)} opzioni da {os.path.basename(path)}"
             )
         except Exception as exc:
             messagebox.showerror("Errore caricamento", str(exc))
@@ -383,9 +432,10 @@ class LeCroyGUI:
         for i, opt in enumerate(self.options_data):
             tag = "odd" if i % 2 else "even"
             iid = self.opts_tree.insert(
-                "", tk.END,
+                "",
+                tk.END,
                 values=(CHECK_OFF, opt["code"], opt["name"], opt["description"]),
-                tags=(tag,)
+                tags=(tag,),
             )
             opt["tree_id"] = iid
 
@@ -393,8 +443,8 @@ class LeCroyGUI:
 
     def _on_opts_click(self, event):
         region = self.opts_tree.identify_region(event.x, event.y)
-        col    = self.opts_tree.identify_column(event.x)
-        row    = self.opts_tree.identify_row(event.y)
+        col = self.opts_tree.identify_column(event.x)
+        row = self.opts_tree.identify_row(event.y)
         if region == "cell" and col == "#1" and row:
             self._toggle_item(row)
 
@@ -428,12 +478,15 @@ class LeCroyGUI:
     def _get_scope_iid(self) -> int | None:
         raw = self.scope_var.get().strip().upper()
         if not raw:
-            messagebox.showerror("ScopeID mancante",
-                                  "Inserisci il ScopeID (6 caratteri esadecimali).")
+            messagebox.showerror(
+                "ScopeID mancante", "Inserisci il ScopeID (6 caratteri esadecimali)."
+            )
             return None
         if len(raw) != 6 or not all(c in "0123456789ABCDEF" for c in raw):
-            messagebox.showerror("ScopeID non valido",
-                                  "Il ScopeID deve essere esattamente 6 caratteri esadecimali.")
+            messagebox.showerror(
+                "ScopeID non valido",
+                "Il ScopeID deve essere esattamente 6 caratteri esadecimali.",
+            )
             return None
         return int(raw, 16)
 
@@ -443,8 +496,9 @@ class LeCroyGUI:
             return
         selected = [o for o in self.options_data if o["checked"]]
         if not selected:
-            messagebox.showwarning("Nessuna selezione",
-                                    "Seleziona almeno un'opzione prima di generare.")
+            messagebox.showwarning(
+                "Nessuna selezione", "Seleziona almeno un'opzione prima di generare."
+            )
             return
         self._do_generate(iid, selected)
 
@@ -453,9 +507,10 @@ class LeCroyGUI:
         if iid is None:
             return
         if not self.options_data:
-            messagebox.showwarning("Nessun dato",
-                                    "Nessuna opzione disponibile. "
-                                    "Verifica la sorgente selezionata.")
+            messagebox.showwarning(
+                "Nessun dato",
+                "Nessuna opzione disponibile. Verifica la sorgente selezionata.",
+            )
             return
         self._do_generate(iid, self.options_data)
 
@@ -467,17 +522,14 @@ class LeCroyGUI:
                 k = lec_key.encode(iid, opt["flags"], opt["mask"])
                 tag = "odd" if i % 2 else "even"
                 self.res_tree.insert(
-                    "", tk.END,
-                    values=(k, opt["name"], opt["description"]),
-                    tags=(tag,)
+                    "", tk.END, values=(k, opt["name"], opt["description"]), tags=(tag,)
                 )
             except Exception as exc:
                 errors.append(f"{opt['name']}: {exc}")
 
         n = len(opts) - len(errors)
         self._status(
-            f"Generate {n} chiavi"
-            + (f" — {len(errors)} errori" if errors else "")
+            f"Generate {n} chiavi" + (f" — {len(errors)} errori" if errors else "")
         )
         if errors:
             messagebox.showwarning("Attenzione", "\n".join(errors))
@@ -511,11 +563,10 @@ class LeCroyGUI:
         if not items:
             messagebox.showwarning("Vuoto", "Nessun risultato da esportare.")
             return
-        ext   = ".csv" if fmt == "csv" else ".txt"
+        ext = ".csv" if fmt == "csv" else ".txt"
         ftype = [("CSV", "*.csv")] if fmt == "csv" else [("Testo", "*.txt")]
-        path  = filedialog.asksaveasfilename(
-            defaultextension=ext, filetypes=ftype,
-            initialfile="chiavi_lecroy"
+        path = filedialog.asksaveasfilename(
+            defaultextension=ext, filetypes=ftype, initialfile="chiavi_lecroy"
         )
         if not path:
             return
@@ -553,19 +604,19 @@ class LeCroyGUI:
 
         if self.options_data:
             matched = [
-                o for o in self.options_data
+                o
+                for o in self.options_data
                 if o["flags"] == flags and (mask & o["mask"])
             ]
             for i, opt in enumerate(matched):
                 tag = "odd" if i % 2 else "even"
                 self.val_tree.insert(
-                    "", tk.END,
+                    "",
+                    tk.END,
                     values=(opt["code"], opt["name"], opt["description"]),
-                    tags=(tag,)
+                    tags=(tag,),
                 )
-            self._status(
-                f"Chiave valida — {len(matched)} opzione/i riconosciute"
-            )
+            self._status(f"Chiave valida — {len(matched)} opzione/i riconosciute")
         else:
             self._status(
                 "Chiave valida. Carica options.cfg nel tab Genera "
@@ -579,6 +630,7 @@ class LeCroyGUI:
 
 
 # ── Entry point ────────────────────────────────────────────────────────────────
+
 
 def main():
     root = tk.Tk()

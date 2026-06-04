@@ -17,7 +17,7 @@ Tool for generating, validating and decoding license keys for LeCroy oscilloscop
 ## Directory structure
 
 ```
-script-papa/
+SCRIPT-LECROY/
 ├── lec/
 │   ├── __init__.py
 │   ├── crypto.py
